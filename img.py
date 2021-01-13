@@ -1,19 +1,21 @@
 import cv2
 
-# extract video frame, save as jpg
-# h,w
-# 480,640
-# 100,150 cropped
-# 100,200 stretched
+'''
+extract video frame, save as jpg
+h,w
+480,640
+100,150 cropped
+100,200 stretched
+'''
 
 cap = cv2.VideoCapture('train.mp4')
-frameCount = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-frameWidth = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-frameHeight = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+frameC = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+frameW = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+frameH = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 c = 0
 ret = True
-while (c < frameCount and ret):
+while (c < frameC and ret):
     ret, img = cap.read()
 
     # frame
