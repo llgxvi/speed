@@ -1,52 +1,43 @@
-import os
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-
 import keras
 from keras import Sequential
-from keras.layers import Conv2D
-from keras.layers import MaxPooling2D, ELU, Dropout, Flatten, Dense
+from keras.layers import Conv2D, MaxPooling2D, ELU, Dropout, Flatten, Dense
 from keras.optimizers import Adam
 
 def model():
     m = Sequential()
 
-    # m.add(keras.Input(shape=(100, 200, 3)))
+    m.add(Conv2D(24, (5,5),
+                 strides=(2,2),
+                 padding = 'valid',
+                 kernel_initializer = 'he_normal',
+                 name = 'conv1'))
+    m.add(ELU())
+    m.add(Conv2D(36, (5,5),
+                 strides=(2,2),
+                 padding = 'valid',
+                 kernel_initializer = 'he_normal',
+                 name = 'conv2'))
+    m.add(ELU())
+    m.add(Conv2D(48, (5,5),
+                 strides=(2,2),
+                 padding = 'valid',
+                 kernel_initializer = 'he_normal',
+                 name = 'conv3'))
+    m.add(ELU())
 
-    m.add(Conv2D(24,
-                     (5,5),
-                     strides=(2,2),
-                     padding = 'valid',
-                     kernel_initializer = 'he_normal',
-                     name = 'conv1'))
-    m.add(ELU())
-    m.add(Conv2D(36,
-                     (5,5),
-                     strides=(2,2),
-                     padding = 'valid',
-                     kernel_initializer = 'he_normal',
-                     name = 'conv2'))
-    m.add(ELU())
-    m.add(Conv2D(48,
-                     (5,5),
-                     strides=(2,2),
-                     padding = 'valid',
-                     kernel_initializer = 'he_normal',
-                     name = 'conv3'))
-    m.add(ELU())
     m.add(Dropout(0.5))
-    m.add(Conv2D(64,
-                     (3,3),
-                     strides = (1,1),
-                     padding = 'valid',
-                     kernel_initializer = 'he_normal',
-                     name = 'conv4'))
+
+    m.add(Conv2D(64, (3,3),
+                 strides = (1,1),
+                 padding = 'valid',
+                 kernel_initializer = 'he_normal',
+                 name = 'conv4'))
     m.add(ELU())
-    m.add(Conv2D(64,
-                     (3,3),
-                     strides= (1,1),
-                     padding = 'valid',
-                     kernel_initializer = 'he_normal',
-                     name = 'conv5'))
+    m.add(Conv2D(64, (3,3),
+                 strides= (1,1),
+                 padding = 'valid',
+                 kernel_initializer = 'he_normal',
+                 name = 'conv5'))
 
     m.add(Flatten(name = 'flatten'))
     m.add(ELU())
