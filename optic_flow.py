@@ -1,6 +1,6 @@
 import numpy as np
 from cv2 import cvtColor
-from cv2 import calcOpticalFlowFarneback
+from cv2 import calcOpticalFlowFarneback as calc
 from cv2 import cartToPolar
 from cv2 import COLOR_RGB2GRAY, COLOR_RGB2HSV, COLOR_HSV2RGB
 from cv2 import normalize, NORM_MINMAX
@@ -12,16 +12,16 @@ def optic_flow(img_curr, img_next):
     hsv = np.zeros((100, 200, 3))
     hsv[:,:,1] = cvtColor(img_next, COLOR_RGB2HSV)[:,:,1]
 
-    flow = calcOpticalFlowFarneback(gray_curr,
-                                    gray_next,
-                                    None,
-                                    0.5,
-                                    1,
-                                    15,
-                                    2,
-                                    5,
-                                    1.3,
-                                    0)
+    flow = calc(gray_curr,
+                gray_next,
+                None,
+                0.5,
+                1,
+                15,
+                2,
+                5,
+                1.3,
+                0)
 
     mag, ang = cartToPolar(flow[..., 0], flow[..., 1])
     hsv[:,:,0] = ang * (180 / np.pi / 2)
