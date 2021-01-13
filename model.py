@@ -10,7 +10,7 @@ from keras.optimizers import Adam
 def model():
     m = Sequential()
 
-    m.add(keras.Input(shape=(100, 100, 200, 3)))
+    # m.add(keras.Input(shape=(100, 200, 3)))
 
     m.add(Conv2D(24,
                      (5,5),
