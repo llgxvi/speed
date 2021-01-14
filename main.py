@@ -9,7 +9,7 @@ frame = 20400
 frame = 1000
 
 h, w, _ = cv2.imread('frame/0.jpg').shape
-input = np.zeros((frame-1, h, w, 3), dtype='uint8')
+input = np.zeros((frame-1, h, w, 3), dtype='float16')
 output = np.zeros((frame-1))
 
 for i in range(frame-1):
@@ -38,6 +38,6 @@ model.compile(optimizer=adam,
 
 model.fit(x=input,
           y=output,
-          batch_size=4,
-          epochs=1,
+          batch_size=36,
+          epochs=10,
           verbose=2)
