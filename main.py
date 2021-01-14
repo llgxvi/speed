@@ -18,13 +18,13 @@ output = np.zeros((frame_train - 1))
 
 input_test = np.zeros((frame_test - 1, h, w, 3), dtype='float16')
 
-for i in range(frame - 1):
+for i in range(frame_train - 1):
     img1 = cv2.imread('frame_train/%d.jpg' % i)
     img2 = cv2.imread('frame_train/%d.jpg' % (i+1))
     curr = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
     next = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
     diff = optic_flow(curr, next)
-  
+
     input[i] = diff
     output[i] = np.mean([speed[i], speed[i+1]])
 
@@ -35,7 +35,7 @@ adam = Adam(0.001,
 
 model = make_model()
 
-model.compile(optimizer=adam, 
+model.compile(optimizer=adam,
               loss='mse')
 
 model.fit(x=input,
