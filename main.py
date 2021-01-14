@@ -6,6 +6,7 @@ from keras.optimizers import Adam
 
 speed = np.loadtxt("train.txt")
 frame = 20400
+frame = 1000
 
 h, w, _ = cv2.imread('frame/0.jpg').shape
 input = np.zeros((frame-1, h, w, 3), dtype='uint8')
