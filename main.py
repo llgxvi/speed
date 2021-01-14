@@ -18,7 +18,7 @@ batch = math.floor(train_frames / batch_size)
 h, w, _ = cv2.imread('frame_train/0.jpg').shape
 
 def generator_train():
-    input = np.zeros((batch_size, h, w, 3), dtype='float16')
+    input = np.zeros((batch_size, h, w, 3), dtype=np.float32)
     output = np.zeros((batch_size))
 
     n = 0
