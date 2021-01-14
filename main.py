@@ -1,5 +1,6 @@
 from model import model as make_model
 from optic_flow import optic_flow
+from change_brightness import change_brightness
 import numpy as np
 import cv2
 from keras.optimizers import Adam
@@ -28,6 +29,11 @@ def generator_train():
             img2 = cv2.imread('frame_train/%d.jpg' % (i+1))
             curr = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
             next = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+
+            bright_factor = 0.2 + np.random.uniform()
+            curr = change_brightness(curr, bright_factor)
+            next = change_brightness(next, bright_factor)
+
             diff = optic_flow(curr, next)
 
         input[j] = diff

@@ -1,6 +1,5 @@
 import cv2
 import sys
-from change_brightness import change_brightness
 
 cap = cv2.VideoCapture(sys.argv[1] + '.mp4')
 frameC = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -15,7 +14,6 @@ for c in range (frameC):
         break
 
     img = img[150:-150, 200:-200, :]
-    img = change_brightness(img)
     cv2.imwrite('frame_%s/%d.jpg' % (sys.argv[1], c), img)
 
 cap.release()
