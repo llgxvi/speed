@@ -9,10 +9,10 @@ import math
 from sklearn.utils import shuffle
 
 X_label = np.loadtxt('train.txt')
-X_frames = 1000
+X_frames = 20400
 
 batch_size = 64
-batch = math.floor(X_frames / batch_size)
+batch = X_frames // batch_size
 
 h, w, _ = cv2.imread('frame_train/0.jpg').shape
 
@@ -34,9 +34,11 @@ def generator_train():
             next = change_brightness(next, bright_factor)
 
             diff = optic_flow(curr, next)
+            s1 = X_label[i]
+            s2 = X_label[i+1]
 
         input[j] = diff
-        output[j] = np.mean([X_label[j], X_label[j+1]])
+        output[j] = np.mean([s1, s2])
         j += 1
         input, output = shuffle(input, output)
         yield (input/256-.5, output)
@@ -51,8 +53,8 @@ adam = Adam(float(sys.argv[1]),
             epsilon=1e-08)
 
 es = EarlyStopping(monitor='loss',
-                   min_delta=1e-3,
-                   patience=0)
+                   min_delta=1e-4,
+                   patience=1)
 
 model = make_model((h, w, 3))
 
