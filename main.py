@@ -21,7 +21,7 @@ generator_train():
 
     n = 0
     while True:
-        for i in range(batch_size * n, batch_size):
+        for i in range(batch_size * n, batch_size * n + batch_size):
             img1 = cv2.imread('frame_train/%d.jpg' % i)
             img2 = cv2.imread('frame_train/%d.jpg' % (i+1))
             curr = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
