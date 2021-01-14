@@ -3,6 +3,7 @@ from optic_flow import optic_flow
 import numpy as np
 import cv2
 from keras.optimizers import Adam
+from keras.models import load_model
 
 speed = np.loadtxt("train.txt")
 frame = 20400
@@ -34,10 +35,13 @@ model.compile(optimizer=adam,
 
 model.fit(x=input,
           y=output,
-          batch_size=32,
-          epochs=20,
+          batch_size=2,
+          epochs=100,
           verbose=2)
 
 model.save('model')
 
 model.summary()
+
+m2 = load_model('model')
+m2.predict(input_test)
