@@ -6,22 +6,20 @@ from keras.optimizers import Adam
 
 speed = np.loadtxt("train.txt")
 frame = 20400
-batch = 10
 
-input = np.zeros((10,100,200,3))
-output = np.zeros((10))
+h, w, _ = cv2.imread('frame/0.jpg').shape
+input = np.zeros((frame-1, h, w, 3), dtype='uint8')
+output = np.zeros((frame-1))
 
-n = 0
-j = 0
-while(n < 19):
-    img1 = cv2.imread("stretched/%d.jpg" % n)
-    img2 = cv2.imread("stretched/%d.jpg" % (n+1))
+for i in range(frame-1):
+    img1 = cv2.imread("stretched/%d.jpg" % i)
+    img2 = cv2.imread("stretched/%d.jpg" % (i+1))
     curr = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
     next = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
     diff = optic_flow(curr, next)
-    input[j] = diff
-    output[j] = np.mean([speed[n], speed[n+1]])
-    n += 2
+  
+    input[i] = diff
+    output[i] = np.mean([speed[i], speed[i+1]])
 
 print('Shape of input, output')
 print(input.shape, output.shape)
