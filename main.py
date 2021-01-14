@@ -25,11 +25,10 @@ for i in range(frame-1):
 print('Shape of input, output')
 print(input.shape, output.shape)
 
-adam = Adam(lr=0.01,
+adam = Adam(0.01,
             beta_1=0.9,
             beta_2=0.999,
-            epsilon=1e-08,
-            decay=0.0)
+            epsilon=1e-07)
 
 model = make_model()
 
@@ -38,6 +37,8 @@ model.compile(optimizer=adam,
 
 model.fit(x=input,
           y=output,
-          batch_size=36,
-          epochs=10,
+          batch_size=32,
+          epochs=20,
           verbose=2)
+
+model.save('model')
