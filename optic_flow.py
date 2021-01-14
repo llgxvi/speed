@@ -25,9 +25,9 @@ def optic_flow(img_curr, img_next):
     mag, ang = cartToPolar(flow[..., 0], flow[..., 1])
 
     hsv = np.zeros((h, w, 3))
-    hsv[:,:,0] = ang * (180 / np.pi / 2)
-    hsv[:,:,1] = cvtColor(img_next, COLOR_RGB2HSV)[:,:,1]
-    hsv[:,:,2] = normalize(mag, None, 0, 255, NORM_MINMAX)
+    hsv[:, :, 0] = ang * (180 / np.pi / 2)
+    hsv[:, :, 1] = cvtColor(img_next, COLOR_RGB2HSV)[:, :, 1]
+    hsv[:, :, 2] = normalize(mag, None, 0, 255, NORM_MINMAX)
     
     hsv = np.asarray(hsv, dtype=np.float32)
     rgb_flow = cvtColor(hsv, COLOR_HSV2RGB)
