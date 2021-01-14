@@ -18,7 +18,7 @@ def generator_train():
     input = np.zeros((batch_size, h, w, 3), dtype='float16')
     output = np.zeros((batch_size))
 
-    n = 600
+    n = 0
     while True and n < batch:
         j = 0
         for i in range(batch_size * n, batch_size * n + batch_size):
@@ -40,13 +40,14 @@ adam = Adam(float(sys.argv[1]),
             beta_2=0.999,
             epsilon=1e-08)
 
-model = make_model()
+model = make_model((h, w, 3))
 
 model.compile(optimizer=adam,
               loss='mse')
 
 model.fit(generator_train(),
-          epochs=100,
+          batch_size=batch_size,
+          epochs=10,
           verbose=1)
 
 model.save('model')

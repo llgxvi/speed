@@ -1,10 +1,12 @@
 import keras
 from keras import Sequential
 from keras.layers import Conv2D, MaxPooling2D
-from keras.layers import ELU, Dropout, Flatten, Dense
+from keras.layers import Input, ELU, Dropout, Flatten, Dense
 
-def model():
+def model(input_shape):
     m = Sequential()
+
+    m.add(Input(shape=input_shape))
 
     m.add(Conv2D(24, (5,5),
                  strides=(2,2),
