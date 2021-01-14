@@ -34,7 +34,7 @@ def model():
                  name='conv4'))
     m.add(ELU())
     m.add(Conv2D(64, (3,3),
-                 strides= (1,1),
+                 strides=(1,1),
                  padding='valid',
                  kernel_initializer='he_normal',
                  name='conv5'))
