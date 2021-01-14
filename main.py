@@ -28,7 +28,7 @@ for i in range(frame - 1):
     input[i] = diff
     output[i] = np.mean([speed[i], speed[i+1]])
 
-adam = Adam(0.001,
+adam = Adam(0.0001,
             beta_1=0.9,
             beta_2=0.999,
             epsilon=1e-01)
