@@ -2,6 +2,7 @@ from model import model as make_model
 from optic_flow import optic_flow
 import numpy as np
 import cv2
+from keras.optimizers import Adam
 
 speed = np.loadtxt("train.txt")
 frame = 20400
@@ -25,7 +26,12 @@ while(n < 19):
 print('Shape of input, output')
 print(input.shape, output.shape)
 
+adam = Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+
 model = make_model()
+
+model.compile(optimizer=adam, 
+              loss='mse')
 
 model.fit(x=input,
           y=output,
