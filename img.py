@@ -12,7 +12,7 @@ for c in range (frameC):
         print('Fail at frame', c)
         break
 
-    img = img[150:-150, 100:-100, :]
+    img = img[150:-150, 200:-200, :]
     cv2.imwrite('frame/%d.jpg' % c, img)
 
 cap.release()
