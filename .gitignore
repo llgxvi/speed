@@ -1,7 +1,5 @@
 __pycache__/
 
-cropped/
-stretched/
-train/
+frame/
 
 git_push.sh
