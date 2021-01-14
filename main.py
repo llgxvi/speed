@@ -33,7 +33,8 @@ def generator_train():
         input[j] = diff
         output[j] = np.mean([speed[j], speed[j+1]])
         j += 1
-        yield shuffle(input/256-.05, output)
+        input, output = shuffle(input, output)
+        yield (input/256-.05, output)
         n += 1
         if n == batch:
             n = 0
