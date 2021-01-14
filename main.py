@@ -3,6 +3,7 @@ from optic_flow import optic_flow
 import numpy as np
 import cv2
 from keras.optimizers import Adam
+from keras.callbacks import EarlyStopping
 import math
 
 speed = np.loadtxt('train.txt')
@@ -19,7 +20,7 @@ def generator_train():
     output = np.zeros((batch_size))
 
     n = 0
-    while True and n < batch:
+    while True:
         j = 0
         for i in range(batch_size * n, batch_size * n + batch_size):
             img1 = cv2.imread('frame_train/%d.jpg' % i)
@@ -31,14 +32,19 @@ def generator_train():
         input[j] = diff
         output[j] = np.mean([speed[j], speed[j+1]])
         j += 1
-        yield (input/256-.05, output)
+        yield shuffle(input/256-.05, output)
         n += 1
+        if n == batch:
+            n = 0
 
 import sys
 adam = Adam(float(sys.argv[1]),
             beta_1=0.9,
             beta_2=0.999,
             epsilon=1e-08)
+
+es = EarlyStopping(monitor='loss',
+                   patience=10)
 
 model = make_model((h, w, 3))
 
@@ -48,6 +54,7 @@ model.compile(optimizer=adam,
 model.fit(generator_train(),
           batch_size=batch_size,
           epochs=10,
+          callbacks=[es],
           verbose=1)
 
 model.save('model')
