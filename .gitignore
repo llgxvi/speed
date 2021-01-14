@@ -1,5 +1,6 @@
 __pycache__/
 
-frame/
+frame_train/
+frame_test/
 
 git_push.sh

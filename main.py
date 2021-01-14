@@ -3,15 +3,14 @@ from optic_flow import optic_flow
 import numpy as np
 import cv2
 from keras.optimizers import Adam
-from keras.models import load_model
 import math
 
 speed = np.loadtxt('train.txt')
-frame_train = 20400
-frame_test = 10798
+train_frames = 20400
+test_frames = 10798
 
 batch_size = 32
-batch = math.floor(frame_train / batch_size)
+batch = math.floor(train_frames / batch_size)
 
 h, w, _ = cv2.imread('frame_train/0.jpg').shape
 
@@ -50,15 +49,3 @@ model.fit(train_generator,
 model.save('model')
 
 model.summary()
-
-for i in range(frame_test - 1):
-    img1 = cv2.imread('frame_test/%d.jpg' % i)
-    img2 = cv2.imread('frame_test/%d.jpg' % (i+1))
-    curr = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
-    next = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
-    diff = optic_flow(curr, next)
-  
-    input_test[i] = diff
-
-m2 = load_model('model')
-m2.predict(input_test)
