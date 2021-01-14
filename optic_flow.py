@@ -28,12 +28,16 @@ def optic_flow(img_curr, img_next):
     hsv[:, :, 0] = ang * (180 / np.pi / 2)
     hsv[:, :, 1] = cvtColor(img_next, COLOR_RGB2HSV)[:, :, 1]
     hsv[:, :, 2] = normalize(mag, None, 0, 255, NORM_MINMAX)
-    
+
     hsv = np.asarray(hsv, dtype=np.float32)
     rgb_flow = cvtColor(hsv, COLOR_HSV2RGB)
 
     return rgb_flow
 
-if __file__ == '__main__':
-    pass
-    
+if __name__ == '__main__':
+    import cv2
+    curr = cv2.imread('frame_train/0.jpg')
+    curr = cv2.cvtColor(curr, cv2.COLOR_BGR2RGB)
+    next = cv2.imread('frame_train/1.jpg')
+    next = cv2.cvtColor(next, cv2.COLOR_BGR2RGB)
+    cv2.imwrite('a.jpg', optic_flow(curr, next))
