@@ -5,6 +5,7 @@ import cv2
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
 import math
+from sklearn.utils import shuffle
 
 speed = np.loadtxt('train.txt')
 train_frames = 20400
