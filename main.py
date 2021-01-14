@@ -22,13 +22,10 @@ for i in range(frame-1):
     input[i] = diff
     output[i] = np.mean([speed[i], speed[i+1]])
 
-print('Shape of input, output')
-print(input.shape, output.shape)
-
-adam = Adam(0.01,
+adam = Adam(0.001,
             beta_1=0.9,
             beta_2=0.999,
-            epsilon=1e-07)
+            epsilon=1e-01)
 
 model = make_model()
 
@@ -42,3 +39,5 @@ model.fit(x=input,
           verbose=2)
 
 model.save('model')
+
+model.summary()
