@@ -1,7 +1,7 @@
 import keras
 from keras import Sequential
-from keras.layers import Conv2D, MaxPooling2D, ELU, Dropout, Flatten, Dense
-from keras.optimizers import Adam
+from keras.layers import Conv2D, MaxPooling2D
+from keras.layers import ELU, Dropout, Flatten, Dense
 
 def model():
     m = Sequential()
@@ -49,9 +49,6 @@ def model():
     m.add(Dense(10,  kernel_initializer = 'he_normal', name = 'fc3'))
     m.add(ELU())
     m.add(Dense(1,   kernel_initializer = 'he_normal', name='output'))
-
-    adam = Adam(lr=1e-4, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
-    m.compile(optimizer = adam, loss = 'mse')
 
     return m
 
