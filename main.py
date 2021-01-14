@@ -8,12 +8,11 @@ from keras.callbacks import EarlyStopping
 import math
 from sklearn.utils import shuffle
 
-speed = np.loadtxt('train.txt')
-train_frames = 20400
-test_frames = 10798
+X_label = np.loadtxt('train.txt')
+X_frames = 1000
 
-batch_size = 32
-batch = math.floor(train_frames / batch_size)
+batch_size = 64
+batch = math.floor(X_frames / batch_size)
 
 h, w, _ = cv2.imread('frame_train/0.jpg').shape
 
@@ -37,10 +36,10 @@ def generator_train():
             diff = optic_flow(curr, next)
 
         input[j] = diff
-        output[j] = np.mean([speed[j], speed[j+1]])
+        output[j] = np.mean([X_label[j], X_label[j+1]])
         j += 1
         input, output = shuffle(input, output)
-        yield (input/256-.05, output)
+        yield (input/256-.5, output)
         n += 1
         if n == batch:
             n = 0
@@ -52,7 +51,8 @@ adam = Adam(float(sys.argv[1]),
             epsilon=1e-08)
 
 es = EarlyStopping(monitor='loss',
-                   patience=10)
+                   min_delta=1e-3,
+                   patience=0)
 
 model = make_model((h, w, 3))
 
@@ -61,7 +61,8 @@ model.compile(optimizer=adam,
 
 model.fit(generator_train(),
           batch_size=batch_size,
-          epochs=10,
+          epochs=100,
+          steps_per_epoch=X_frames//batch_size,
           callbacks=[es],
           verbose=1)
 
