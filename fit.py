@@ -27,7 +27,7 @@ def generator_x():
         i = 0
         for j in range(batch_size * b, batch_size * (b + 1)):
             curr = imread(j)
-            next = imread(j + 1)
+            next = imread(j + 1) # index out of range is ok in this case
 
             curr = change_brightness(curr, bright_factor)
             next = change_brightness(next, bright_factor)
@@ -44,6 +44,33 @@ def generator_x():
         b += 1
         if b == batch:
             b = 0
+
+# vx: validation batch
+def generator_vx():
+    x = np.zeros((10, h, w, 3))
+    y = np.zeros((10))
+
+    while True:
+        bright_factor = 0.2 + np.random.uniform()
+        from random import randint
+
+        r = randint(0, X_size - 11)
+        i = 1
+        for j in range(r, r + 10):
+            curr = imread(j)
+            next = imread(j+1)
+
+            curr = change_brightness(curr, bright_factor)
+            next = change_brightness(next, bright_factor)
+
+            diff = optic_flow(curr, next)
+
+            x[i] = diff
+            y[i] = np.mean(X_label[j:j+1])
+            i += 1
+
+       x, y = shuffle(x, y)
+       yield (x/256 - 0.5, y)
 
 import sys
 adam = Adam(float(sys.argv[1]),
@@ -64,6 +91,7 @@ model.fit(generator_x(),
           batch_size=batch_size,
           epochs=100,
           steps_per_epoch=X_size // batch_size,
+          validation_data=generator_vx(),
           callbacks=[es],
           verbose=1)
 
