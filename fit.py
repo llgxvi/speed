@@ -1,7 +1,6 @@
 from model import model as make_model
 from preprocess import preprocess
 from optic_flow import optic_flow
-from change_brightness import change_brightness
 import numpy as np
 import cv2
 from keras.optimizers import Adam
@@ -13,7 +12,7 @@ import sys
 X_label = np.loadtxt('train.txt')
 X_size = X_label.shape[0]
 batch_size = 64
-lr = 0.001
+lr = 1e-4
 
 l_ = len(sys.argv)
 if l_ > 1:
@@ -25,7 +24,7 @@ if l_ > 3:
 
 batch = X_size // batch_size
 
-h, w, _ = imread(0).shape
+h, w = 66, 200
 
 def generator_x():
     x = np.zeros((batch_size, h, w, 3))
