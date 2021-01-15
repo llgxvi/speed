@@ -11,8 +11,8 @@ speed = np.loadtxt('train.txt')[:10]
 bright_factor = 0.2 + np.random.uniform()
 
 for i in range(10):
-    curr = cv2.imread(i)
-    next = cv2.imread(i+1)
+    curr = imread(i)
+    next = imread(i+1)
 
     #curr = change_brightness(curr, bright_factor)
     #next = change_brightness(next, bright_factor)

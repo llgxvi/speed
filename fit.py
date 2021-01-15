@@ -7,12 +7,21 @@ from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
 from sklearn.utils import shuffle
 from imread import imread
+import sys
 
 X_label = np.loadtxt('train.txt')
 X_size = X_label.shape[0]
-X_size # testing
-
 batch_size = 64
+lr = 0.001
+
+l_ = len(sys.argv)
+if l_ > 1:
+    lr = float(sys.argv[1])
+if l_ > 2:
+    X_size = int(sys.argv[2])
+if l_ > 3:
+    batch_size = int(sys.argv[3])
+
 batch = X_size // batch_size
 
 h, w, _ = imread(0).shape
@@ -21,7 +30,7 @@ def generator_x():
     x = np.zeros((batch_size, h, w, 3))
     y = np.zeros((batch_size))
 
-    b = 0
+    b = 0 # batch index
     while True:
         bright_factor = 0.2 + np.random.uniform()
 
@@ -74,15 +83,14 @@ def generator_vx():
         x, y = shuffle(x, y)
         yield (x/256 - 0.5, y)
 
-import sys
-adam = Adam(float(sys.argv[1]),
+adam = Adam(lr,
             beta_1=0.9,
             beta_2=0.999,
             epsilon=1e-08)
 
 es = EarlyStopping(monitor='loss',
-                   min_delta=1e-3,
-                   patience=1)
+                   min_delta=1e-4,
+                   patience=2)
 
 model = make_model((h, w, 3))
 
