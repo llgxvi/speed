@@ -1,4 +1,5 @@
 from model import model as make_model
+from preprocess import preprocess
 from optic_flow import optic_flow
 from change_brightness import change_brightness
 import numpy as np
@@ -32,15 +33,15 @@ def generator_x():
 
     b = 0 # batch index
     while True:
-        bright_factor = 0.2 + np.random.uniform()
-
-        i = 0
+        i = 0 # img index inside batch
         for j in range(batch_size * b, batch_size * (b + 1)):
+            bf = 0.2 + np.random.uniform()
+
             curr = imread(j)
             next = imread(j + 1) # index out of range is ok in this case
 
-            curr = change_brightness(curr, bright_factor)
-            next = change_brightness(next, bright_factor)
+            curr = preprocess(curr, bf)
+            next = preprocess(next, bf)
 
             diff = optic_flow(curr, next)
 
@@ -61,18 +62,16 @@ def generator_vx():
     y = np.zeros((10))
 
     while True:
-        bright_factor = 0.2 + np.random.uniform()
-
         from random import randint
         r = randint(0, X_size - 11)
 
-        i = 0
+        i = 0 # img index inside batch
         for j in range(r, r + 10):
             curr = imread(j)
             next = imread(j+1)
 
-            curr = change_brightness(curr, bright_factor)
-            next = change_brightness(next, bright_factor)
+            curr = preprocess(curr)
+            next = preprocess(next)
 
             diff = optic_flow(curr, next)
 
@@ -83,26 +82,20 @@ def generator_vx():
         x, y = shuffle(x, y)
         yield (x/256 - 0.5, y)
 
-adam = Adam(lr,
-            beta_1=0.9,
-            beta_2=0.999,
-            epsilon=1e-08)
+adam = Adam(lr, epsilon=1e-07)
 
-es = EarlyStopping(monitor='loss',
-                   min_delta=1e-4,
-                   patience=2)
+es = EarlyStopping(monitor='loss', patience=10)
 
 model = make_model((h, w, 3))
 
-model.compile(optimizer=adam,
-              loss='mse')
+model.compile(optimizer=adam, loss='mse')
 
 model.fit(generator_x(),
           batch_size=batch_size,
           epochs=100,
           steps_per_epoch=X_size // batch_size,
           validation_data=generator_vx(),
-          validation_steps=2,
+          validation_steps=1,
           callbacks=[es],
           verbose=1)
 
