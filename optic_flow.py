@@ -5,11 +5,11 @@ from cv2 import cartToPolar
 from cv2 import COLOR_RGB2GRAY, COLOR_RGB2HSV, COLOR_HSV2RGB
 from cv2 import normalize, NORM_MINMAX
 
-def optic_flow(img_curr, img_next):
-    h, w, _ = img_curr.shape
+def optic_flow(img_rgb_curr, img_rgb_next):
+    h, w, _ = img_rgb_curr.shape
 
-    curr = cvtColor(img_curr, COLOR_RGB2GRAY)
-    next = cvtColor(img_next, COLOR_RGB2GRAY)
+    curr = cvtColor(img_rgb_curr, COLOR_RGB2GRAY)
+    next = cvtColor(img_rgb_next, COLOR_RGB2GRAY)
     flow = calc(curr,
                 next,
                 None,
@@ -26,7 +26,7 @@ def optic_flow(img_curr, img_next):
 
     hsv = np.zeros((h, w, 3))
     hsv[:, :, 0] = ang * (180 / np.pi / 2)
-    hsv[:, :, 1] = cvtColor(img_next, COLOR_RGB2HSV)[:, :, 1]
+    hsv[:, :, 1] = cvtColor(img_rgb_next, COLOR_RGB2HSV)[:, :, 1]
     hsv[:, :, 2] = normalize(mag, None, 0, 255, NORM_MINMAX)
 
     hsv = np.asarray(hsv, dtype=np.float32)
@@ -36,8 +36,17 @@ def optic_flow(img_curr, img_next):
 
 if __name__ == '__main__':
     import cv2
-    curr = cv2.imread('frame_train/0.jpg')
+    import sys
+
+    i = int(sys.argv[1])
+
+    curr = 'train_frames/%s.jpg' % i
+    next = 'train_frames/%s.jpg' % (i + 1)
+
+    curr = cv2.imread(curr)
+    next = cv2.imread(next)
+
     curr = cv2.cvtColor(curr, cv2.COLOR_BGR2RGB)
-    next = cv2.imread('frame_train/1.jpg')
     next = cv2.cvtColor(next, cv2.COLOR_BGR2RGB)
+
     cv2.imwrite('a.jpg', optic_flow(curr, next))
