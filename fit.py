@@ -5,6 +5,7 @@ import numpy as np
 import cv2
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
+from keras.models import load_model
 from sklearn.utils import shuffle
 from imread import imread
 import sys
@@ -86,6 +87,7 @@ adam = Adam(lr, epsilon=1e-07)
 es = EarlyStopping(monitor='loss', patience=10)
 
 model = make_model((h, w, 3))
+model = load_model('model')
 
 model.compile(optimizer=adam, loss='mse')
 
