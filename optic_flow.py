@@ -13,13 +13,13 @@ def optic_flow(img_rgb_curr, img_rgb_next):
     flow = calc(curr,
                 next,
                 None,
-                0.5,
-                1,
-                15,
-                2,
-                5,
-                1.3,
-                0)
+                pyr_scale=0.5,
+                levels=1,
+                winsize=15,
+                iterations=2,
+                poly_n=5,
+                poly_sigma=1.3,
+                flags=0)
 
     # magnitude, angle
     mag, ang = cartToPolar(flow[..., 0], flow[..., 1])
