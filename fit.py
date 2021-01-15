@@ -10,6 +10,7 @@ from imread import imread
 
 X_label = np.loadtxt('train.txt')
 X_size = X_label.shape[0]
+X_size # testing
 
 batch_size = 64
 batch = X_size // batch_size
@@ -52,10 +53,11 @@ def generator_vx():
 
     while True:
         bright_factor = 0.2 + np.random.uniform()
-        from random import randint
 
+        from random import randint
         r = randint(0, X_size - 11)
-        i = 1
+
+        i = 0
         for j in range(r, r + 10):
             curr = imread(j)
             next = imread(j+1)
@@ -69,8 +71,8 @@ def generator_vx():
             y[i] = np.mean(X_label[j:j+1])
             i += 1
 
-       x, y = shuffle(x, y)
-       yield (x/256 - 0.5, y)
+        x, y = shuffle(x, y)
+        yield (x/256 - 0.5, y)
 
 import sys
 adam = Adam(float(sys.argv[1]),
@@ -92,6 +94,7 @@ model.fit(generator_x(),
           epochs=100,
           steps_per_epoch=X_size // batch_size,
           validation_data=generator_vx(),
+          validation_steps=2,
           callbacks=[es],
           verbose=1)
 
