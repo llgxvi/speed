@@ -3,17 +3,16 @@ import numpy as np
 import cv2
 from optic_flow import optic_flow
 from change_brightness import change_brightness
+from imread import imread
 
-h, w, _ = cv2.imread('train_frames/0.jpg').shape
+h, w, _ = imread(0).shape
 sample = np.zeros((10, h, w, 3))
 speed = np.loadtxt('train.txt')[:10]
 bright_factor = 0.2 + np.random.uniform()
 
 for i in range(10):
-    img1 = cv2.imread('frame_train/%d.jpg' % i)
-    img2 = cv2.imread('frame_train/%d.jpg' % (i+1))
-    curr = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
-    next = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
+    curr = cv2.imread(i)
+    next = cv2.imread(i+1)
 
     #curr = change_brightness(curr, bright_factor)
     #next = change_brightness(next, bright_factor)
@@ -22,6 +21,7 @@ for i in range(10):
     sample[i] = diff/256 - .5
 
 model = load_model('model')
+
 p = model(sample)
 p = p.numpy().reshape(10);
 print(speed, '\n')
