@@ -13,22 +13,23 @@ import sys
 h, w = 66, 200
 
 X_label = np.loadtxt('train.txt')
-X_size = X_label.shape[0] - 2
-V_size = 100
+X_size = X_label.shape[0]
+V_size = 4400 - 2
 batch_size = 32
 v_size = 100
 lr = 1e-4
-epoch = 100
+epoch = 3
 
-L = len(sys.argv)
-if L > 1:
-    lr = float(sys.argv[1])
-if L > 2:
-    X_size = int(sys.argv[2])
-if L > 3:
-    batch_size = int(sys.argv[3])
-if L > 4:
-    epoch = int(sys.argv[4])
+if False:
+    L = len(sys.argv)
+    if L > 1:
+        lr = float(sys.argv[1])
+    if L > 2:
+        X_size = int(sys.argv[2])
+    if L > 3:
+        batch_size = int(sys.argv[3])
+    if L > 4:
+        epoch = int(sys.argv[4])
 
 batch = X_size // batch_size
 
@@ -39,12 +40,12 @@ def generator_x():
     c = 0
     while True:
         if c == 0:
-            index_x = np.arange(X_size)
-            index_x.reshape(-1, 2)
-            np.random.shuffle(index_x)
-            index_x.ravel()
+            index = np.arange(X_size)
+            index.reshape(-1, 2)
+            np.random.shuffle(index)
+            index.ravel()
 
-        mini = index_x[batch_size * c: batch_size * (c + 1)]
+        mini = index[batch_size * c: batch_size * (c + 1)]
 
         for i in range(len(mini)):
             bf = 0.2 + np.random.uniform()
@@ -74,11 +75,11 @@ def generator_vx():
     x = np.zeros((v_size, h, w, 3))
     y = np.zeros((v_size))
 
-    index_v = np.random.choice(X_size, V_size)
+    index = np.arange(16000, V_size)
 
     c = 0
     while True:
-        slice = index_v[v_size * c: v_size * (c + 1)]
+        slice = index[v_size * c: v_size * (c + 1)]
         c += 1
 
         for i in range(len(slice)):
@@ -102,7 +103,7 @@ adam = Adam(lr, epsilon=1e-07)
 es = EarlyStopping(monitor='val_loss', min_delta=0.001)
 
 model = make_model((h, w, 3))
-model = load_model('model')
+# model = load_model('model')
 
 model.compile(optimizer=adam, loss='mse')
 
@@ -117,6 +118,7 @@ history = model.fit(generator_x(),
 
 model.save('model')
 
+import json
 with open('history.json', 'w') as f:
     json.dump(history.history, f)
 
