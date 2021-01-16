@@ -6,14 +6,16 @@ from optic_flow import optic_flow
 from imread import imread
 import sys
 
-size = int(sys.argv[1])
 h, w = 66, 200
+
+size = int(sys.argv[1])
+
 sample = np.zeros((size, h, w, 3))
 speed = np.loadtxt('train.txt')[:size]
 
 for i in range(size):
     curr = imread(i)
-    next = imread(i+1)
+    next = imread(i + 1)
 
     curr = preprocess(curr)
     next = preprocess(next)
