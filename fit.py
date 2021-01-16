@@ -106,7 +106,7 @@ model = load_model('model')
 
 model.compile(optimizer=adam, loss='mse')
 
-model.fit(generator_x(),
+history = model.fit(generator_x(),
           epochs=epoch,
           batch_size=batch_size,
           steps_per_epoch=X_size // batch_size,
@@ -116,5 +116,8 @@ model.fit(generator_x(),
           verbose=1)
 
 model.save('model')
+
+with open('history.json', 'w') as f:
+    json.dump(history.history, f)
 
 model.summary()
