@@ -31,15 +31,21 @@ if L > 4:
     epoch = int(sys.argv[4])
 
 batch = X_size // batch_size
-index = np.arange(X_size - 1)
-index_v = np.random.choice(index, V_size)
+
+index_x = np.arange(X_size)
+index_x.reshape(-1, 2)
+np.random.shuffle(index_x)
+index_x.ravel()
+index_v = np.random.choice(X_size, V_size)
 
 def generator_x():
     x = np.zeros((batch_size, h, w, 3))
     y = np.zeros((batch_size))
 
+    c = 0
     while True:
-        mini = np.random.choice(index, batch_size)
+        mini = index_x[batch_size * c: batch_size * (c + 1)]
+        c += 1
 
         for i in range(len(mini)):
             bf = 0.2 + np.random.uniform()
