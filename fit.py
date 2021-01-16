@@ -8,14 +8,13 @@ from optic_flow import optic_flow
 from model import model as make_model
 
 import numpy as np
-import cv2
 import sys
 
 h, w = 66, 200
 
 X_label = np.loadtxt('train.txt')
 X_size = X_label.shape[0]
-batch_size = 64
+batch_size = 32
 v_size = 100
 lr = 1e-4
 epoch = 100
