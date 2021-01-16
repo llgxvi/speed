@@ -1,13 +1,14 @@
-from model import model as make_model
-from preprocess import preprocess
-from optic_flow import optic_flow
-import numpy as np
-import cv2
 from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping
 from keras.models import load_model
-from sklearn.utils import shuffle
+
 from imread import imread
+from preprocess import preprocess
+from optic_flow import optic_flow
+from model import model as make_model
+
+import numpy as np
+import cv2
 import sys
 
 h, w = 66, 200
@@ -19,14 +20,14 @@ v_size = 100
 lr = 1e-4
 epoch = 100
 
-l_ = len(sys.argv)
-if l_ > 1:
+L = len(sys.argv)
+if L > 1:
     lr = float(sys.argv[1])
-if l_ > 2:
+if L > 2:
     X_size = int(sys.argv[2])
-if l_ > 3:
+if L > 3:
     batch_size = int(sys.argv[3])
-if l_ > 4:
+if L > 4:
     epoch = int(sys.argv[4])
 
 batch = X_size // batch_size
@@ -37,12 +38,13 @@ def generator_x():
     y = np.zeros((batch_size))
 
     while True:
-        b = np.random.choice(index, batch_size)
+        mini = np.random.choice(index, batch_size)
 
-        for i in range(b.shape[0]):
+        for i in range(len(mini)):
             bf = 0.2 + np.random.uniform()
 
-            j = b[i]
+            j = mini[i]
+
             curr = imread(j)
             next = imread(j + 1)
 
@@ -54,7 +56,7 @@ def generator_x():
             x[i] = diff
             y[i] = np.mean(X_label[j:j+1])
 
-        yield (x/256 - 0.5, y)
+        yield (x / 256 - 0.5, y)
 
 # vx: validation batch
 def generator_vx():
@@ -64,7 +66,7 @@ def generator_vx():
     a = np.random.choice(index, v_size)
 
     while True:
-        for i in range(a.shape[0]):
+        for i in range(len(a)):
             j = a[i]
 
             curr = imread(j)
@@ -78,11 +80,11 @@ def generator_vx():
             x[i] = diff
             y[i] = np.mean(X_label[j:j+1])
 
-        yield (x/256 - 0.5, y)
+        yield (x / 256 - 0.5, y)
 
 adam = Adam(lr, epsilon=1e-07)
 
-es = EarlyStopping(monitor='loss', patience=10)
+es = EarlyStopping(monitor='val_loss', min_delta=0.01)
 
 model = make_model((h, w, 3))
 model = load_model('model')
@@ -94,7 +96,7 @@ model.fit(generator_x(),
           epochs=epoch,
           steps_per_epoch=X_size // batch_size,
           validation_data=generator_vx(),
-          validation_steps=2,
+          validation_steps=1,
           callbacks=[es],
           verbose=1)
 
