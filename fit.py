@@ -13,12 +13,12 @@ import sys
 h, w = 66, 200
 
 X_label = np.loadtxt('train.txt')
-X_size = X_label.shape[0]
+X_size = 16000
 V_size = 4400 - 2
 batch_size = 32
 v_size = 100
 lr = 1e-4
-epoch = 3
+epoch = 10
 
 if False:
     L = len(sys.argv)
@@ -65,8 +65,8 @@ def generator_x():
 
         yield (x / 256 - 0.5, y)
 
-        if c == X_size // batch_size:
-            c == 0
+        if c == batch - 1:
+            c = 0
         else:
             c += 1
 
@@ -75,7 +75,7 @@ def generator_vx():
     x = np.zeros((v_size, h, w, 3))
     y = np.zeros((v_size))
 
-    index = np.arange(16000, V_size)
+    index = np.arange(X_size, V_size)
 
     c = 0
     while True:
@@ -100,10 +100,12 @@ def generator_vx():
 
 adam = Adam(lr, epsilon=1e-07)
 
-es = EarlyStopping(monitor='val_loss', min_delta=0.001)
+es = EarlyStopping(monitor='val_loss',
+                   min_delta=0.001,
+                   patience=3)
 
-model = make_model((h, w, 3))
-# model = load_model('model')
+# model = make_model((h, w, 3))
+model = load_model('model')
 
 model.compile(optimizer=adam, loss='mse')
 
