@@ -1,8 +1,10 @@
-from preprocess import preprocess
 from keras.models import load_model
-import numpy as np
-from optic_flow import optic_flow
+
 from imread import imread
+from preprocess import preprocess
+from optic_flow import optic_flow
+
+import numpy as np
 import sys
 
 h, w = 66, 200
