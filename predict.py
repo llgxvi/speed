@@ -31,5 +31,5 @@ predict = predict.numpy().reshape(size)
 mse = np.mean((speed - predict) ** 2)
 
 print(speed[:10], '\n')
-print(p[:10], '\n')
+print(predict[:10], '\n')
 print(mse)
