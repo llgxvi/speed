@@ -1,7 +1,6 @@
 from preprocess import preprocess
 from keras.models import load_model
 import numpy as np
-import cv2
 from optic_flow import optic_flow
 from imread import imread
 import sys
@@ -25,7 +24,7 @@ for i in range(size):
 
 model = load_model('model')
 
-p = model(sample/256 - 0.5)
+p = model(sample / 256 - 0.5)
 p = p.numpy().reshape(size);
 print(speed[:10], '\n')
 print(p[:10], '\n')
