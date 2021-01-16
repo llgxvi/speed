@@ -55,7 +55,7 @@ def generator_x():
             diff = optic_flow(curr, next)
 
             x[i] = diff
-            y[i] = np.mean(X_label[j:j+1])
+            y[i] = np.mean(X_label[j: j+1])
 
         yield (x / 256 - 0.5, y)
 
@@ -66,10 +66,10 @@ def generator_vx():
 
     c = 0
     while True:
-        slice = index_v[v_size * c, v_size * (c + 1)]
+        slice = index_v[v_size * c: v_size * (c + 1)]
         c += 1
 
-        for i in range(slice):
+        for i in range(len(slice)):
             j = slice[i]
 
             curr = imread(j)
@@ -81,7 +81,7 @@ def generator_vx():
             diff = optic_flow(curr, next)
 
             x[i] = diff
-            y[i] = np.mean(X_label[j:j+1])
+            y[i] = np.mean(X_label[j: j+1])
 
         yield (x / 256 - 0.5, y)
 
