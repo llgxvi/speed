@@ -32,7 +32,7 @@ if L > 4:
 
 # make sure next img index in range
 X_size -= 1
- _size -= 1
+V_size -= 1
 
 batch = X_size // batch_size
 
