@@ -30,7 +30,10 @@ if L > 3:
 if L > 4:
     epoch = int(sys.argv[4])
 
-X_size -= 1 # make sure next img index in range
+# make sure next img index in range
+X_size -= 1
+ _size -= 1
+
 batch = X_size // batch_size
 
 def generator_x():
