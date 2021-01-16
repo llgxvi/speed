@@ -83,7 +83,7 @@ def generator_vx():
 
 adam = Adam(lr, epsilon=1e-07)
 
-es = EarlyStopping(monitor='val_loss', min_delta=0.01)
+es = EarlyStopping(monitor='val_loss', min_delta=0.001)
 
 model = make_model((h, w, 3))
 model = load_model('model')
@@ -91,8 +91,8 @@ model = load_model('model')
 model.compile(optimizer=adam, loss='mse')
 
 model.fit(generator_x(),
-          batch_size=batch_size,
           epochs=epoch,
+          batch_size=batch_size,
           steps_per_epoch=X_size // batch_size,
           validation_data=generator_vx(),
           validation_steps=1,
