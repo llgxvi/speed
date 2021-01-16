@@ -14,7 +14,7 @@ h, w = 66, 200
 
 X_label = np.loadtxt('train.txt')
 X_size = X_label.shape[0]
-V_size = X_size * 0.2
+V_size = X_size // 5
 batch_size = 32
 v_size = 100
 lr = 1e-4
@@ -66,7 +66,7 @@ def generator_vx():
 
     c = 0
     while True:
-        slice = index_v[v_index * c, v_index * (c + 1)]
+        slice = index_v[v_size * c, v_size * (c + 1)]
         c += 1
 
         for i in range(slice):
