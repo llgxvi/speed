@@ -14,6 +14,7 @@ h, w = 66, 200
 
 X_label = np.loadtxt('train.txt')
 X_size = X_label.shape[0]
+V_size = X_size * 0.2
 batch_size = 32
 v_size = 100
 lr = 1e-4
@@ -31,6 +32,7 @@ if L > 4:
 
 batch = X_size // batch_size
 index = np.arange(X_size - 1)
+index_v = np.random.choice(index, V_size)
 
 def generator_x():
     x = np.zeros((batch_size, h, w, 3))
@@ -62,11 +64,13 @@ def generator_vx():
     x = np.zeros((v_size, h, w, 3))
     y = np.zeros((v_size))
 
-    a = np.random.choice(index, v_size)
-
+    c = 0
     while True:
-        for i in range(len(a)):
-            j = a[i]
+        slice = index_v[v_index * c, v_index * (c + 1)]
+        c += 1
+
+        for i in range(slice):
+            j = slice[i]
 
             curr = imread(j)
             next = imread(j + 1)
@@ -95,7 +99,7 @@ model.fit(generator_x(),
           batch_size=batch_size,
           steps_per_epoch=X_size // batch_size,
           validation_data=generator_vx(),
-          validation_steps=1,
+          validation_steps=V_size // v_size,
           callbacks=[es],
           verbose=1)
 
