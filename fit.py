@@ -10,10 +10,14 @@ from sklearn.utils import shuffle
 from imread import imread
 import sys
 
+h, w = 66, 200
+
 X_label = np.loadtxt('train.txt')
 X_size = X_label.shape[0]
 batch_size = 64
+v_size = 100
 lr = 1e-4
+epoch = 100
 
 l_ = len(sys.argv)
 if l_ > 1:
@@ -22,10 +26,10 @@ if l_ > 2:
     X_size = int(sys.argv[2])
 if l_ > 3:
     batch_size = int(sys.argv[3])
+if l_ > 4:
+    epoch = int(sys.argv[4])
 
 batch = X_size // batch_size
-
-h, w = 66, 200
 
 def generator_x():
     x = np.zeros((batch_size, h, w, 3))
@@ -58,17 +62,17 @@ def generator_x():
 
 # vx: validation batch
 def generator_vx():
-    x = np.zeros((10, h, w, 3))
-    y = np.zeros((10))
+    x = np.zeros((v_size, h, w, 3))
+    y = np.zeros((v_size))
 
     while True:
         from random import randint
-        r = randint(0, X_size - 11)
+        r = randint(0, X_size - v_size - 1)
 
         i = 0 # img index inside batch
-        for j in range(r, r + 10):
+        for j in range(r, r + v_size):
             curr = imread(j)
-            next = imread(j+1)
+            next = imread(j + 1)
 
             curr = preprocess(curr)
             next = preprocess(next)
@@ -93,10 +97,10 @@ model.compile(optimizer=adam, loss='mse')
 
 model.fit(generator_x(),
           batch_size=batch_size,
-          epochs=100,
+          epochs=epoch,
           steps_per_epoch=X_size // batch_size,
           validation_data=generator_vx(),
-          validation_steps=1,
+          validation_steps=v_size,
           callbacks=[es],
           verbose=1)
 
