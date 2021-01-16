@@ -3,7 +3,6 @@ from keras.models import load_model
 import numpy as np
 import cv2
 from optic_flow import optic_flow
-from change_brightness import change_brightness
 from imread import imread
 import sys
 
