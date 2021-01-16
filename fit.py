@@ -100,7 +100,7 @@ model.fit(generator_x(),
           epochs=epoch,
           steps_per_epoch=X_size // batch_size,
           validation_data=generator_vx(),
-          validation_steps=v_size,
+          validation_steps=2,
           callbacks=[es],
           verbose=1)
 
