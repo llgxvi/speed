@@ -13,8 +13,8 @@ import sys
 h, w = 66, 200
 
 X_label = np.loadtxt('train.txt')
-X_size = X_label.shape[0]
-V_size = X_size // 5
+X_size = X_label.shape[0] - 2
+V_size = 100
 batch_size = 32
 v_size = 100
 lr = 1e-4
@@ -29,10 +29,6 @@ if L > 3:
     batch_size = int(sys.argv[3])
 if L > 4:
     epoch = int(sys.argv[4])
-
-# make sure next img index in range
-X_size -= 1
-V_size -= 1
 
 batch = X_size // batch_size
 
