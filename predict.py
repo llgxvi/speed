@@ -26,10 +26,10 @@ for i in range(size):
 
 model = load_model('model')
 
-p = model(sample / 256 - 0.5)
-p = p.numpy().reshape(size);
+predict = model(sample / 256 - 0.5)
+predict = predict.numpy().reshape(size)
+mse = np.mean((speed - predict) ** 2)
+
 print(speed[:10], '\n')
 print(p[:10], '\n')
-
-mse = np.mean((speed-p)**2)
 print(mse)
