@@ -32,20 +32,19 @@ if L > 4:
 
 batch = X_size // batch_size
 
-index_x = np.arange(X_size)
-index_x.reshape(-1, 2)
-np.random.shuffle(index_x)
-index_x.ravel()
-index_v = np.random.choice(X_size, V_size)
-
 def generator_x():
     x = np.zeros((batch_size, h, w, 3))
     y = np.zeros((batch_size))
 
     c = 0
     while True:
+        if c == 0:
+            index_x = np.arange(X_size)
+            index_x.reshape(-1, 2)
+            np.random.shuffle(index_x)
+            index_x.ravel()
+
         mini = index_x[batch_size * c: batch_size * (c + 1)]
-        c += 1
 
         for i in range(len(mini)):
             bf = 0.2 + np.random.uniform()
@@ -65,10 +64,17 @@ def generator_x():
 
         yield (x / 256 - 0.5, y)
 
+        if c == X_size // batch_size:
+            c == 0
+        else:
+            c += 1
+
 # vx: validation batch
 def generator_vx():
     x = np.zeros((v_size, h, w, 3))
     y = np.zeros((v_size))
+
+    index_v = np.random.choice(X_size, V_size)
 
     c = 0
     while True:
