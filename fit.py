@@ -30,19 +30,21 @@ if l_ > 4:
     epoch = int(sys.argv[4])
 
 batch = X_size // batch_size
+index = np.arange(X_size - 1)
 
 def generator_x():
     x = np.zeros((batch_size, h, w, 3))
     y = np.zeros((batch_size))
 
-    b = 0 # batch index
     while True:
-        i = 0 # img index inside batch
-        for j in range(batch_size * b, batch_size * (b + 1)):
+        b = np.random.choice(index, batch_size)
+
+        for i in range(b.shape[0]):
             bf = 0.2 + np.random.uniform()
 
+            j = b[i]
             curr = imread(j)
-            next = imread(j + 1) # index out of range is ok in this case
+            next = imread(j + 1)
 
             curr = preprocess(curr, bf)
             next = preprocess(next, bf)
@@ -51,26 +53,20 @@ def generator_x():
 
             x[i] = diff
             y[i] = np.mean(X_label[j:j+1])
-            i += 1
 
-        x, y = shuffle(x, y)
         yield (x/256 - 0.5, y)
-
-        b += 1
-        if b == batch:
-            b = 0
 
 # vx: validation batch
 def generator_vx():
     x = np.zeros((v_size, h, w, 3))
     y = np.zeros((v_size))
 
-    while True:
-        from random import randint
-        r = randint(0, X_size - v_size - 1)
+    a = np.random.choice(index, v_size)
 
-        i = 0 # img index inside batch
-        for j in range(r, r + v_size):
+    while True:
+        for i in range(a.shape[0]):
+            j = a[i]
+
             curr = imread(j)
             next = imread(j + 1)
 
@@ -81,9 +77,7 @@ def generator_vx():
 
             x[i] = diff
             y[i] = np.mean(X_label[j:j+1])
-            i += 1
 
-        x, y = shuffle(x, y)
         yield (x/256 - 0.5, y)
 
 adam = Adam(lr, epsilon=1e-07)
