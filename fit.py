@@ -18,7 +18,7 @@ V_size = 4400 - 2
 batch_size = 32
 v_size = 100
 lr = 1e-4
-epoch = 10
+epoch = 5
 
 if False:
     L = len(sys.argv)
@@ -32,6 +32,7 @@ if False:
         epoch = int(sys.argv[4])
 
 batch = X_size // batch_size
+batch_v = V_size // v_size
 
 def generator_x():
     x = np.zeros((batch_size, h, w, 3))
@@ -79,8 +80,9 @@ def generator_vx():
 
     c = 0
     while True:
+        print('🥤 Validation step', c)
+
         slice = index[v_size * c: v_size * (c + 1)]
-        c += 1
 
         for i in range(len(slice)):
             j = slice[i]
@@ -98,23 +100,28 @@ def generator_vx():
 
         yield (x / 256 - 0.5, y)
 
+        if c == batch_v - 1:
+            c = 0
+        else:
+            c += 1
+
 adam = Adam(lr, epsilon=1e-07)
 
 es = EarlyStopping(monitor='val_loss',
                    min_delta=0.001,
                    patience=3)
 
-# model = make_model((h, w, 3))
-model = load_model('model')
+model = make_model((h, w, 3))
+# model = load_model('model')
 
 model.compile(optimizer=adam, loss='mse')
 
 history = model.fit(generator_x(),
           epochs=epoch,
           batch_size=batch_size,
-          steps_per_epoch=X_size // batch_size,
+          steps_per_epoch=batch,
           validation_data=generator_vx(),
-          validation_steps=V_size // v_size,
+          validation_steps=batch_v - 1,
           callbacks=[es],
           verbose=1)
 
