@@ -78,10 +78,6 @@ def generator_vx():
 
     c = 0
     while True:
-        if c == 0:
-            print('\n')
-        print('🥤 Validation step', c)
-
         slice = index[v_size * c: v_size * (c + 1)]
 
         for i in range(len(slice)):
@@ -127,8 +123,7 @@ history = model.fit(generator_x(),
 
 model.save('model')
 
-import json
-with open('history.json', 'a') as f:
-    json.dump(history.history, f)
+print(history.history['loss'])
+print(history.history['val_loss'])
 
 model.summary()
