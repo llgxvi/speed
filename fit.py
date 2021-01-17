@@ -48,6 +48,7 @@ def generator_x():
 
         for i in range(len(mini)):
             bf = 0.2 + np.random.uniform()
+            # bf = 1
 
             j = mini[i]
 
@@ -74,7 +75,7 @@ def generator_vx():
     x = np.zeros((v_size, h, w, 3))
     y = np.zeros((v_size))
 
-    index = np.arange(X_size, V_size)
+    index = np.arange(X_size, X_size + V_size)
 
     c = 0
     while True:
