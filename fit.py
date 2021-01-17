@@ -42,9 +42,7 @@ def generator_x():
     while True:
         if c == 0:
             index = np.arange(X_size)
-            index.reshape(-1, 2)
             np.random.shuffle(index)
-            index.ravel()
 
         mini = index[batch_size * c: batch_size * (c + 1)]
 
@@ -80,6 +78,8 @@ def generator_vx():
 
     c = 0
     while True:
+        if c == 0:
+            print('\n')
         print('🥤 Validation step', c)
 
         slice = index[v_size * c: v_size * (c + 1)]
@@ -111,8 +111,8 @@ es = EarlyStopping(monitor='val_loss',
                    min_delta=0.001,
                    patience=3)
 
-model = make_model((h, w, 3))
-# model = load_model('model')
+# model = make_model((h, w, 3))
+model = load_model('model')
 
 model.compile(optimizer=adam, loss='mse')
 
@@ -128,7 +128,7 @@ history = model.fit(generator_x(),
 model.save('model')
 
 import json
-with open('history.json', 'w') as f:
+with open('history.json', 'a') as f:
     json.dump(history.history, f)
 
 model.summary()
