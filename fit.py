@@ -14,10 +14,10 @@ h, w = 66, 200
 
 X_label = np.loadtxt('train.txt')
 X_size = 16000
-V_size = 4400 - 2
+V_size = 3000
 batch_size = 32
 v_size = 100
-lr = 1e-4
+lr = 1e-3
 epoch = 5
 
 if False:
@@ -108,7 +108,7 @@ es = EarlyStopping(monitor='val_loss',
                    min_delta=0.001,
                    patience=3)
 
-# model = make_model((h, w, 3))
+model = make_model((h, w, 3))
 model = load_model('model')
 
 model.compile(optimizer=adam, loss='mse')

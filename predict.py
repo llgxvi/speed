@@ -12,9 +12,9 @@ h, w = 66, 200
 size = int(sys.argv[1])
 
 sample = np.zeros((size, h, w, 3))
-speed = np.loadtxt('train.txt')[:size]
+speed = np.loadtxt('train.txt')[20000:20000+size]
 
-for i in range(size):
+for i in range(20000, size):
     curr = imread(i)
     next = imread(i + 1)
 
