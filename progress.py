@@ -1,6 +1,9 @@
 def progress(current, total, barLength = 20):
-    percent = float(current) * 100 / total
-    arrow   = '-' * int(percent/100 * barLength - 1) + '>'
+    percent = float(current) / total * 100
+    arrow   = '-' * int(percent / 100 * barLength - 1) + '>'
     spaces  = ' ' * (barLength - len(arrow))
 
-    print('Progress: [-%s%s] %d%%' % (arrow, spaces, percent), end='\r')
+    if percent == 100:
+        print('Progress: [-%s%s] %f%%' % (arrow, spaces, percent), end='\n')
+    else:
+        print('Progress: [-%s%s] %.2f%%' % (arrow, spaces, percent), end='\r')

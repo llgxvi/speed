@@ -44,7 +44,7 @@ for i in range(frameC):
 
     speed[i-1] = predict.numpy()[0]
 
-    progress(i, frameC)
+    progress(i, frameC-1)
 
 cap.release()
 
