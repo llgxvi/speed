@@ -17,7 +17,7 @@ X_size = 16000
 V_size = 3000
 batch_size = 32
 v_size = 100
-lr = 1e-3
+lr = 1e-4
 epoch = 5
 
 if False:
@@ -42,7 +42,7 @@ def generator_x():
     while True:
         if c == 0:
             index = np.arange(X_size)
-            np.random.shuffle(index)
+            # np.random.shuffle(index)
 
         mini = index[batch_size * c: batch_size * (c + 1)]
 

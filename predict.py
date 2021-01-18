@@ -14,7 +14,11 @@ size = int(sys.argv[1])
 sample = np.zeros((size, h, w, 3))
 speed = np.loadtxt('train.txt')[20000:20000+size]
 
-for i in range(20000, size):
+index = np.arange(20000, 20000+size)
+
+for j in range(len(index)):
+
+    i = index[j]
     curr = imread(i)
     next = imread(i + 1)
 
@@ -22,7 +26,7 @@ for i in range(20000, size):
     next = preprocess(next)
 
     diff = optic_flow(curr, next)
-    sample[i] = diff
+    sample[j] = diff
 
 model = load_model('model')
 
