@@ -15,10 +15,10 @@ h, w = 66, 200
 X_label = np.loadtxt('train.txt')
 X_size = 16000
 V_size = 3000
-batch_size = 32
+batch_size = 16
 v_size = 100
-lr = 1e-4
-epoch = 5
+lr = 1e-5
+epoch = 3
 
 if False:
     L = len(sys.argv)
@@ -118,7 +118,7 @@ history = model.fit(generator_x(),
           batch_size=batch_size,
           steps_per_epoch=batch,
           validation_data=generator_vx(),
-          validation_steps=batch_v - 1,
+          validation_steps=batch_v,
           callbacks=[es],
           verbose=1)
 
