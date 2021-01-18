@@ -2,7 +2,7 @@ from keras import Sequential
 from keras.layers import Input, Conv2D
 from keras.layers import ELU, Dropout, Flatten, Dense
 
-import globl
+from globl import h, w
 
 def model():
     m = Sequential()

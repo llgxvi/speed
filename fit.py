@@ -10,7 +10,7 @@ from model import model as make_model
 import numpy as np
 import sys
 
-import globl
+from globl import h, w
 
 X_label = np.loadtxt('train.txt')
 X_size = 16000
