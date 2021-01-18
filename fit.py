@@ -47,7 +47,7 @@ def generator_x():
         mini = index[batch_size * c: batch_size * (c + 1)]
 
         for i in range(len(mini)):
-            bf = 0.2 + np.random.uniform()
+            bf = np.random.uniform(0.2, 1)
             # bf = 1
 
             j = mini[i]
