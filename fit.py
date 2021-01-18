@@ -18,7 +18,7 @@ V_size = 3000
 batch_size = 16
 v_size = 100
 lr = 1e-4
-epoch = 3
+epoch = 30
 
 if False:
     L = len(sys.argv)
@@ -106,10 +106,10 @@ adam = Adam(lr, epsilon=1e-07)
 
 es = EarlyStopping(monitor='val_loss',
                    min_delta=0.001,
-                   patience=3)
+                   patience=100)
 
 model = make_model((h, w, 3))
-model = load_model('model')
+# model = load_model('model')
 
 model.compile(optimizer=adam, loss='mse')
 
