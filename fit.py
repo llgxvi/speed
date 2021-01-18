@@ -17,7 +17,7 @@ X_size = 16000
 V_size = 3000
 batch_size = 16
 v_size = 100
-lr = 1e-5
+lr = 1e-4
 epoch = 3
 
 if False:
