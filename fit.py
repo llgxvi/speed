@@ -20,17 +20,6 @@ v_size = 100
 lr = 1e-4
 epoch = 30
 
-if False:
-    L = len(sys.argv)
-    if L > 1:
-        lr = float(sys.argv[1])
-    if L > 2:
-        X_size = int(sys.argv[2])
-    if L > 3:
-        batch_size = int(sys.argv[3])
-    if L > 4:
-        epoch = int(sys.argv[4])
-
 batch = X_size // batch_size
 batch_v = V_size // v_size
 
@@ -61,7 +50,7 @@ def generator_x():
             diff = optic_flow(curr, next)
 
             x[i] = diff
-            y[i] = np.mean(X_label[j: j+1])
+            y[i] = np.mean(X_label[j: j+2])
 
         yield (x / 256 - 0.5, y)
 
@@ -93,7 +82,7 @@ def generator_vx():
             diff = optic_flow(curr, next)
 
             x[i] = diff
-            y[i] = np.mean(X_label[j: j+1])
+            y[i] = np.mean(X_label[j: j+2])
 
         yield (x / 256 - 0.5, y)
 
