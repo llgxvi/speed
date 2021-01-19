@@ -32,6 +32,9 @@ def generator_x():
 
     c = 0
     while True:
+        if c == 0:
+            np.random.shuffle(index_x)
+
         mini = index_x[batch_size * c: batch_size * (c + 1)]
 
         for i in range(len(mini)):
