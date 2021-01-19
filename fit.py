@@ -18,7 +18,7 @@ V_size = 3000
 batch_size = 16
 v_size = 100
 lr = 1e-4
-epoch = 50
+epoch = 5
 
 batch = X_size // batch_size
 batch_v = V_size // v_size
@@ -57,13 +57,14 @@ def generator_x():
         else:
             c += 1
 
-# vx: validation batch
-def generator_vx():
+def generator_v():
     x = np.zeros((v_size, h, w, 3))
     y = np.zeros((v_size))
 
     c = 0
     while True:
+        progress(c + 1, V_size)
+
         slice = index_v[v_size * c: v_size * (c + 1)]
 
         for i in range(len(slice)):
@@ -99,7 +100,7 @@ history = model.fit(generator_x(),
           epochs=epoch,
           batch_size=batch_size,
           steps_per_epoch=batch,
-          validation_data=generator_vx(),
+          validation_data=generator_v(),
           validation_steps=batch_v,
           callbacks=[es],
           verbose=1)
