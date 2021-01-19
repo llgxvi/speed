@@ -89,10 +89,14 @@ es = EarlyStopping(monitor='val_loss',
                    min_delta=0.001,
                    patience=100)
 
-model = make_model()
-# model = load_model('model')
+if len(sys.argv) == 0:
+    model = make_model()
+else:
+    model = load_model('model')
 
-model.compile(optimizer=adam, loss='mse')
+model.compile(optimizer=adam,
+              loss='mse',
+              metrics=['mse', 'accuracy'])
 
 history = model.fit(generator_x(),
           epochs=epoch,
@@ -107,5 +111,6 @@ model.save('model')
 
 print(history.history['loss'])
 print(history.history['val_loss'])
+print(history)
 
 model.summary()

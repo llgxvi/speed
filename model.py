@@ -33,16 +33,12 @@ def model():
                  kernel_initializer='he_normal'))
     m.add(ELU())
 
-    m.add(Dropout(0.25))
     m.add(Flatten())
 
     m.add(Dense(100, kernel_initializer='he_normal'))
     m.add(ELU())
 
-    m.add(Dense(10,  kernel_initializer='he_normal'))
-    m.add(ELU())
-
-    m.add(Dropout(0.25))
+    m.add(Dropout(0.5))
 
     m.add(Dense(1,   kernel_initializer='he_normal'))
 
