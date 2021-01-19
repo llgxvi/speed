@@ -1,46 +1,41 @@
 from keras import Sequential
-from keras.layers import Input, Conv2D
-from keras.layers import ELU, Dropout, Flatten, Dense
+from keras.layers import Lambda, Conv2D
+from keras.layers import Dropout, Flatten, Dense
 
 from globl import h, w
 
 def model():
     m = Sequential()
 
-    m.add(Input(shape=(h, w, 3)))
+    m.add(Lambda(x: x / 127.5 - 1, shape=(h, w, 3)))
 
-    m.add(Conv2D(32, (3,3),
-                 strides=2,
-                 padding='valid',
+    m.add(Conv2D(32, (3,3), 2,
+                 activation='relu',
                  kernel_initializer='he_normal'))
-    m.add(ELU())
 
-    m.add(Conv2D(64, (3,3),
-                 strides=2,
-                 padding='valid',
+    m.add(Conv2D(64, (3,3), 2,
+                 activation='relu',
                  kernel_initializer='he_normal'))
-    m.add(ELU())
 
-    m.add(Conv2D(64, (3,3),
-                 strides=2,
-                 padding='valid',
+    m.add(Conv2D(64, (3,3), 2,
+                 activation='relu',
                  kernel_initializer='he_normal'))
-    m.add(ELU())
 
-    m.add(Conv2D(64, (3,3),
-                 strides=2,
-                 padding='valid',
+    m.add(Conv2D(128, (3,3), 2,
+                 activation='relu',
                  kernel_initializer='he_normal'))
-    m.add(ELU())
+
+    m.add(Conv2D(128, (3,3), 2,
+                 activation='relu',
+                 kernel_initializer='he_normal'))
 
     m.add(Flatten())
 
-    m.add(Dense(100, kernel_initializer='he_normal'))
-    m.add(ELU())
+    m.add(Dense(256,
+                activation='relu',
+                kernel_initializer='he_normal'))
 
-    m.add(Dropout(0.5))
-
-    m.add(Dense(1,   kernel_initializer='he_normal'))
+    m.add(Dense(1,
+                kernel_initializer='he_normal'))
 
     return m
-

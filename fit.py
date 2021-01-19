@@ -36,6 +36,7 @@ def generator_x():
 
         for i in range(len(mini)):
             bf = np.random.uniform(0.2, 1)
+            # bf = 1
 
             j = mini[i]
 
@@ -50,7 +51,7 @@ def generator_x():
             x[i] = diff
             y[i] = np.mean(X_label[j: j + 2])
 
-        yield (x / 256 - 0.5, y)
+        yield (x / 127.5 - 1, y)
 
         if c == batch - 1:
             c = 0
@@ -76,7 +77,7 @@ def generator_v():
             x[i] = diff
             y[i] = np.mean(X_label[j: j + 2])
 
-        yield (x / 256 - 0.5, y)
+        yield (x / 127.5 - 1, y)
 
         if c == batch_v - 1:
             c = 0
@@ -89,7 +90,7 @@ es = EarlyStopping(monitor='val_loss',
                    min_delta=0.001,
                    patience=100)
 
-if len(sys.argv) == 0:
+if len(sys.argv) == 1:
     model = make_model()
 else:
     model = load_model('model')
