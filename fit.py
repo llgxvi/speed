@@ -15,7 +15,7 @@ from globl import h, w
 X_label = np.loadtxt('train.txt')
 X_size = 16000
 V_size = 3000
-batch_size = 16
+batch_size = 32
 v_size = 100
 lr = 1e-4
 epoch = 5
@@ -63,8 +63,6 @@ def generator_v():
 
     c = 0
     while True:
-        progress(c + 1, V_size)
-
         slice = index_v[v_size * c: v_size * (c + 1)]
 
         for i in range(len(slice)):
