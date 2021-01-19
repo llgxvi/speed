@@ -99,8 +99,7 @@ else:
     model = load_model('model')
 
 model.compile(optimizer=adam,
-              loss='mse',
-              metrics=['mse', 'accuracy'])
+              loss='mse')
 
 history = model.fit(generator_x(),
           epochs=epoch,
