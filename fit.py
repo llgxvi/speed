@@ -1,5 +1,5 @@
 from keras.optimizers import Adam
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.models import load_model
 
 from imread import imread
@@ -93,6 +93,9 @@ es = EarlyStopping(monitor='val_loss',
                    min_delta=0.001,
                    patience=100)
 
+cp = ModelCheckpoint('model.h5',
+                     save_best_only=True)
+
 if len(sys.argv) == 1:
     model = make_model()
 else:
@@ -107,7 +110,7 @@ history = model.fit(generator_x(),
           steps_per_epoch=batch,
           validation_data=generator_v(),
           validation_steps=batch_v,
-          callbacks=[es],
+          callbacks=[es, cp],
           verbose=0)
 
 model.save('model')
