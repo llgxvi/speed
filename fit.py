@@ -17,8 +17,8 @@ X_size = 16000
 V_size = 3000
 batch_size = 32
 v_size = 100
-lr = 1e-3
-epoch = 5
+lr = 1e-4
+epoch = 100
 
 batch = X_size // batch_size
 batch_v = V_size // v_size
