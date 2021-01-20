@@ -7,7 +7,7 @@ from globl import h, w
 def model():
     m = Sequential()
 
-    m.add(Lambda(lambda x: x / 127.5 - 1, input_shape=(h, w, 3)))
+    m.add(Lambda(lambda x: x / 255, input_shape=(h, w, 3)))
 
     m.add(Conv2D(32, (3,3), 2,
                  activation='relu',
@@ -27,13 +27,13 @@ def model():
                  activation='relu',
                  kernel_initializer='he_normal'))
 
-    m.add(Dropout(0.25))
-
     m.add(Flatten())
 
-    m.add(Dense(256,
+    m.add(Dense(100,
                 activation='relu',
                 kernel_initializer='he_normal'))
+
+    m.add(Dropout(0.25))
 
     m.add(Dense(1, kernel_initializer='he_normal'))
 
