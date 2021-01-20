@@ -9,34 +9,40 @@ def model():
 
     m.add(Lambda(lambda x: x / 255, input_shape=(h, w, 3)))
 
-    m.add(Conv2D(32, (3,3), 2,
-                 activation='relu',
-                 kernel_initializer='he_normal'))
-
-    m.add(Conv2D(64, (3,3), 2,
-                 activation='relu',
-                 kernel_initializer='he_normal'))
-
-    m.add(Conv2D(64, (3,3), 2,
-                 activation='relu',
+    m.add(Conv2D(24, (3,3), 2,
+                 activation='elu',
                  kernel_initializer='he_normal'))
 
     m.add(Dropout(0.5))
 
-    m.add(Conv2D(128, (3,3), 2,
-                 activation='relu',
+    m.add(Conv2D(36, (3,3), 2,
+                 activation='elu',
                  kernel_initializer='he_normal'))
+
+    m.add(Conv2D(48, (3,3), 2,
+                 activation='elu',
+                 kernel_initializer='he_normal'))
+
+    m.add(Dropout(0.5))
+
+    m.add(Conv2D(64, (3,3), 1,
+                 activation='elu',
+                 kernel_initializer='he_normal'))
+
+    m.add(Conv2D(64, (3,3), 1,
+                  activation='elu',
+                  kernel_initializer='he_normal'))
 
     m.add(Flatten())
 
     m.add(Dense(100,
-                activation='relu',
+                activation='elu',
                 kernel_initializer='he_normal'))
 
     m.add(Dropout(0.5))
 
     m.add(Dense(10,
-                activation='relu',
+                activation='elu',
                 kernel_initializer='he_normal'))
 
     m.add(Dense(1, kernel_initializer='he_normal'))
