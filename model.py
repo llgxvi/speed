@@ -21,13 +21,13 @@ def model():
                  activation='relu',
                  kernel_initializer='he_normal'))
 
-    m.add(Conv2D(128, (3,3), 2,
-                 activation='relu',
-                 kernel_initializer='he_normal'))
+    m.add(Dropout(0.25))
 
     m.add(Conv2D(128, (3,3), 2,
                  activation='relu',
                  kernel_initializer='he_normal'))
+
+    m.add(Dropout(0.25))
 
     m.add(Flatten())
 
@@ -35,7 +35,6 @@ def model():
                 activation='relu',
                 kernel_initializer='he_normal'))
 
-    m.add(Dense(1,
-                kernel_initializer='he_normal'))
+    m.add(Dense(1, kernel_initializer='he_normal'))
 
     return m
