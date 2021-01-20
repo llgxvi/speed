@@ -17,7 +17,7 @@ X_size = 16000
 V_size = 3000
 batch_size = 32
 v_size = 100
-lr = 1e-4
+lr = 1e-3
 epoch = 5
 
 batch = X_size // batch_size
@@ -108,12 +108,11 @@ history = model.fit(generator_x(),
           validation_data=generator_v(),
           validation_steps=batch_v,
           callbacks=[es],
-          verbose=1)
+          verbose=0)
 
 model.save('model')
 
 print(history.history['loss'])
 print(history.history['val_loss'])
-print(history)
 
 model.summary()
