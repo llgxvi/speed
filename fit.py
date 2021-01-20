@@ -54,7 +54,7 @@ def generator_x():
             x[i] = diff
             y[i] = np.mean(X_label[j: j + 2])
 
-        yield (x / 127.5 - 1, y)
+        yield (x, y)
 
         if c == batch - 1:
             c = 0
@@ -80,7 +80,7 @@ def generator_v():
             x[i] = diff
             y[i] = np.mean(X_label[j: j + 2])
 
-        yield (x / 127.5 - 1, y)
+        yield (x, y)
 
         if c == batch_v - 1:
             c = 0
