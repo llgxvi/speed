@@ -126,3 +126,10 @@ print(history.history['loss'])
 print(history.history['val_loss'])
 
 model.summary()
+
+import signal
+def sigg(sig):
+    model.summary()
+    print(history.history['loss'])
+    print(history.history['val_loss'])
+signal.signal(signal.SIGINT, sigg)
