@@ -12,24 +12,25 @@ from globl import h, w
 size = int(sys.argv[1])
 
 sample = np.zeros((1, h, w, 3))
-speed = np.loadtxt('train.txt')[19000:19000+size]
+speed = np.loadtxt('train.txt')[19000: 19000 + size]
 
-index = np.arange(19000, 19000+size)
+index = np.arange(19000, 19000 + size)
 
 model = load_model('model.h5')
 predict = np.zeros((size))
 
-for j in range(len(index)):
-    i = index[j]
-    curr = imread(i)
-    next = imread(i + 1)
+for i in range(len(index)):
+    j = index[i]
+
+    curr = imread(j)
+    next = imread(j + 1)
 
     diff = optic_flow(curr, next)
 
     sample[0] = diff
-    predict[j] = model(sample).numpy()[0]
+    predict[i] = model(sample).numpy()[0]
 
-    progress(j+1, size)
+    progress(i + 1, size)
 
 mse = np.mean((speed - predict) ** 2)
 

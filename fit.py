@@ -39,12 +39,12 @@ def generator_x():
 
         for i in range(len(mini)):
             bf = np.random.uniform(0.2, 1)
-            # bf = 1
+            ja = np.random.randint(0, 2)
 
             j = mini[i]
 
             curr = imread(j)
-            next = imread(j + 1)
+            next = imread(j + 1 + ja)
 
             curr = change_brightness(curr, bf)
             next = change_brightness(next, bf)
@@ -52,7 +52,7 @@ def generator_x():
             diff = optic_flow(curr, next)
 
             x[i] = diff
-            y[i] = np.mean(X_label[j: j + 2])
+            y[i] = np.mean(X_label[j: j + 2 + ja])
 
         yield (x, y)
 
