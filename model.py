@@ -9,23 +9,23 @@ def model():
 
     m.add(Lambda(lambda x: x / 255, input_shape=(h, w, 3)))
 
-    m.add(Conv2D(16, (5,5), 2,
-                 activation='elu',
-                 kernel_initializer='he_normal'))
-
     m.add(Conv2D(32, (5,5), 2,
                  activation='elu',
                  kernel_initializer='he_normal'))
 
-    m.add(Conv2D(32, (3,3), 2,
+    m.add(Conv2D(64, (5,5), 2,
                  activation='elu',
                  kernel_initializer='he_normal'))
 
-    m.add(Conv2D(64, (3,3), 1,
+    m.add(Conv2D(64, (3,3), 2,
                  activation='elu',
                  kernel_initializer='he_normal'))
 
     m.add(Conv2D(128, (3,3), 1,
+                 activation='elu',
+                 kernel_initializer='he_normal'))
+
+    m.add(Conv2D(256, (3,3), 1,
                   activation='elu',
                   kernel_initializer='he_normal'))
 
@@ -37,7 +37,7 @@ def model():
 
     m.add(Dropout(0.5))
 
-    m.add(Dense(10,
+    m.add(Dense(50,
                 activation='elu',
                 kernel_initializer='he_normal'))
 
