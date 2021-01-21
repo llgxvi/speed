@@ -99,37 +99,29 @@ cp = ModelCheckpoint('model.h5',
 
 class PrintLoss(Callback):
     def on_epoch_end(self, epoch, logs):
-        print(epoch)
-        print(logs['loss'])
-        print(logs['val_loss'])
+        l = logs['loss']
+        v = logs['val_loss']
+        print('🍺 %d - %f - %f' % (epoch, l, v))
 
 if len(sys.argv) == 1:
     model = make_model()
 else:
-    model = load_model('model')
+    model = load_model('model.h5')
 
 model.compile(optimizer=adam,
               loss='mse')
 
-history = model.fit(generator_x(),
-          epochs=epoch,
-          batch_size=batch_size,
-          steps_per_epoch=batch,
-          validation_data=generator_v(),
-          validation_steps=batch_v,
-          callbacks=[es, cp, PrintLoss()],
-          verbose=0)
-
-model.save('model')
-
-print(history.history['loss'])
-print(history.history['val_loss'])
-
-model.summary()
-
-import signal
-def sigg(sig):
+try:
+    history = model.fit(generator_x(),
+                        epochs=epoch,
+                        batch_size=batch_size,
+                        steps_per_epoch=batch,
+                        validation_data=generator_v(),
+                        validation_steps=batch_v,
+                        callbacks=[es, cp, PrintLoss()],
+                        verbose=2)
+except KeyboardInterrupt:
     model.summary()
     print(history.history['loss'])
     print(history.history['val_loss'])
-signal.signal(signal.SIGINT, sigg)
+    sys.exit()
