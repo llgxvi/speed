@@ -16,7 +16,7 @@ speed = np.loadtxt('train.txt')[19000:19000+size]
 
 index = np.arange(19000, 19000+size)
 
-model = load_model('model')
+model = load_model('model.h5')
 predict = np.zeros((size))
 
 for j in range(len(index)):

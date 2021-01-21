@@ -21,13 +21,11 @@ def model():
                  activation='elu',
                  kernel_initializer='he_normal'))
 
-    m.add(Dropout(0.5))
-
     m.add(Conv2D(64, (3,3), 1,
                  activation='elu',
                  kernel_initializer='he_normal'))
 
-    m.add(Conv2D(64, (3,3), 1,
+    m.add(Conv2D(128, (3,3), 1,
                   activation='elu',
                   kernel_initializer='he_normal'))
 
@@ -37,9 +35,9 @@ def model():
                 activation='elu',
                 kernel_initializer='he_normal'))
 
-    m.add(Dropout(0.2))
+    m.add(Dropout(0.5))
 
-    m.add(Dense(10,
+    m.add(Dense(100,
                 activation='elu',
                 kernel_initializer='he_normal'))
 

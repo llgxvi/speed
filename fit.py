@@ -1,5 +1,5 @@
 from keras.optimizers import Adam
-from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.callbacks import EarlyStopping, ModelCheckpoint, Callback
 from keras.models import load_model
 
 from imread import imread
@@ -91,10 +91,17 @@ adam = Adam(lr, epsilon=1e-07)
 
 es = EarlyStopping(monitor='val_loss',
                    min_delta=0.001,
-                   patience=100)
+                   patience=100,
+                   restore_best_weights=True)
 
 cp = ModelCheckpoint('model.h5',
                      save_best_only=True)
+
+class PrintLoss(Callback):
+    def on_epoch_end(self, epoch, logs):
+        print(epoch)
+        print(logs['loss'])
+        print(logs['val_loss'])
 
 if len(sys.argv) == 1:
     model = make_model()
@@ -110,7 +117,7 @@ history = model.fit(generator_x(),
           steps_per_epoch=batch,
           validation_data=generator_v(),
           validation_steps=batch_v,
-          callbacks=[es, cp],
+          callbacks=[es, cp, PrintLoss()],
           verbose=0)
 
 model.save('model')
