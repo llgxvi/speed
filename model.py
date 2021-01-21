@@ -37,7 +37,7 @@ def model():
 
     m.add(Dropout(0.5))
 
-    m.add(Dense(100,
+    m.add(Dense(10,
                 activation='elu',
                 kernel_initializer='he_normal'))
 

@@ -120,8 +120,9 @@ try:
                         validation_steps=batch_v,
                         callbacks=[es, cp, PrintLoss()],
                         verbose=2)
-except KeyboardInterrupt:
-    model.summary()
+
     print(history.history['loss'])
     print(history.history['val_loss'])
+except KeyboardInterrupt:
+    model.summary()
     sys.exit()
