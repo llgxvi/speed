@@ -2,12 +2,11 @@ from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping, ModelCheckpoint, Callback
 from keras.models import load_model
 
-from imread import imread
-from change_brightness import change_brightness
 from optic_flow import optic_flow
 from model import model as make_model
 
 import numpy as np
+import cv2 as cv
 import sys
 
 from globl import h, w, label
@@ -43,11 +42,11 @@ def generator_x():
 
             j = mini[i]
 
-            curr = imread(j)
-            next = imread(j + 1)
+            curr = cv.imread(j)
+            next = cv.imread(j + 1)
 
-            curr = change_brightness(curr, bf)
-            next = change_brightness(next, bf)
+            # curr = change_brightness(curr, bf)
+            # next = change_brightness(next, bf)
 
             diff = optic_flow(curr, next)
 
@@ -72,8 +71,8 @@ def generator_v():
         for i in range(len(slice)):
             j = slice[i]
 
-            curr = imread(j)
-            next = imread(j + 1)
+            curr = cv.imread(j)
+            next = cv.imread(j + 1)
 
             diff = optic_flow(curr, next)
 
