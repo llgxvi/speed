@@ -11,6 +11,9 @@ import sys
 
 from globl import h, w, label
 
+def path(i):
+    return 'train_frames/' + str(i) + '.jpg'
+
 lr = 1e-4
 epoch = 100
 
@@ -42,8 +45,8 @@ def generator_x():
 
             j = mini[i]
 
-            curr = cv.imread(j)
-            next = cv.imread(j + 1)
+            curr = cv.imread(path(j))
+            next = cv.imread(path(j + 1))
 
             # curr = change_brightness(curr, bf)
             # next = change_brightness(next, bf)
@@ -71,8 +74,8 @@ def generator_v():
         for i in range(len(slice)):
             j = slice[i]
 
-            curr = cv.imread(j)
-            next = cv.imread(j + 1)
+            curr = cv.imread(path(j))
+            next = cv.imread(path(j + 1))
 
             diff = optic_flow(curr, next)
 
