@@ -39,7 +39,11 @@ def model():
                 activation='elu',
                 kernel_initializer='he_normal'))
 
-    m.add(Dense(100,
+    m.add(Dense(50,
+                activation='elu',
+                kernel_initializer='he_normal'))
+
+    m.add(Dense(10,
                 activation='elu',
                 kernel_initializer='he_normal'))
 
