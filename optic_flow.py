@@ -31,6 +31,6 @@ def optic_flow(curr, next):
     hsv[:, :, 2] = cv.normalize(mag, None, 0, 255, cv.NORM_MINMAX)
     hsv = hsv.astype(np.float32)
 
-    rgb = cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
+    bgr = cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
 
-    return rgb
+    return bgr
