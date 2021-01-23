@@ -4,7 +4,8 @@ from preprocess import preprocess
 
 cap = cv.VideoCapture('train.mp4')
 
-count = int(cap.get(cv.CAP_PROP_FRAME_COUNT))
+count = cap.get(cv.CAP_PROP_FRAME_COUNT)
+count = int(count)
 
 for i in range(count):
     ret, img = cap.read()
