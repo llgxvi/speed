@@ -3,13 +3,13 @@ import cv2 as cv
 
 def optic_flow(curr, next):
     '''
-    curr:   rgb
-    next:   rgb
-    return: rgb
+    curr:   bgr
+    next:   bgr
+    return: bgr
     '''
 
-    gray1 = cv.cvtColor(curr, cv.COLOR_RGB2GRAY)
-    gray2 = cv.cvtColor(next, cv.COLOR_RGB2GRAY)
+    gray1 = cv.cvtColor(curr, cv.COLOR_BGR2GRAY)
+    gray2 = cv.cvtColor(next, cv.COLOR_BGR2GRAY)
 
     flow = cv.calcOpticalFlowFarneback(
                 gray1,
@@ -27,10 +27,10 @@ def optic_flow(curr, next):
 
     hsv = np.zeros(curr.shape)
     hsv[:, :, 0] = ang * (180 / np.pi / 2)
-    hsv[:, :, 1] = cv.cvtColor(next, cv.COLOR_RGB2HSV)[..., 1]
+    hsv[:, :, 1] = cv.cvtColor(next, cv.COLOR_BGR2HSV)[..., 1]
     hsv[:, :, 2] = cv.normalize(mag, None, 0, 255, cv.NORM_MINMAX)
     hsv = hsv.astype(np.float32)
 
-    rgb = cv.cvtColor(hsv, cv.COLOR_HSV2RGB)
+    rgb = cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
 
     return rgb
