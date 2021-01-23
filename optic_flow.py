@@ -2,11 +2,12 @@ import numpy as np
 import cv2 as cv
 
 def optic_flow(curr, next):
-'''
-curr:   rgb
-next:   rgb
-return: rgb
-'''
+    '''
+    curr:   rgb
+    next:   rgb
+    return: rgb
+    '''
+
     gray1 = cv.cvtColor(curr, cv.COLOR_RGB2GRAY)
     gray2 = cv.cvtColor(next, cv.COLOR_RGB2GRAY)
 
@@ -28,7 +29,8 @@ return: rgb
     hsv[:, :, 0] = ang * (180 / np.pi / 2)
     hsv[:, :, 1] = cv.cvtColor(next, cv.COLOR_RGB2HSV)[..., 1]
     hsv[:, :, 2] = cv.normalize(mag, None, 0, 255, cv.NORM_MINMAX)
+    hsv = hsv.astype(np.float32)
 
-    img = cv.cvtColor(hsv, cv.COLOR_HSV2RGB)
+    rgb = cv.cvtColor(hsv, cv.COLOR_HSV2RGB)
 
-    return img
+    return rgb

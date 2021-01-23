@@ -1,14 +1,13 @@
-import cv2
-from change_brightness import change_brightness
+import cv2 as cv
 
-def preprocess(rgb, bright_factor=0):
-    # crop
-    img = rgb[100:-100, 100:-100]
+def preprocess(img):
+    '''
+    img:    bgr
+    return: bgr
+    '''
 
-    # resize
-    # img = cv2.resize(img, (200, 66), interpolation=cv2.INTER_AREA)
+    img = img[100:-100, 100:-100]
 
-    if bright_factor > 0:
-        img = change_brightness(img, bright_factor)
+    img = cv.resize(img, (200, 100), interpolation=cv.INTER_AREA)
 
     return img
